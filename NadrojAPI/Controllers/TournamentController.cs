@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using NadrojAPI.Models;
-using Npgsql;
-using Dapper;
 using NadrojAPI.Repositories;
+
+//JV
 
 namespace NadrojAPI.Controllers;
 
