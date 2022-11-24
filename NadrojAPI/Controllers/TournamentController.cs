@@ -1,42 +1,48 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using NadrojAPI.Models;
+using Npgsql;
+using Dapper;
+using NadrojAPI.Repositories;
 
 namespace NadrojAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+public class TournamentController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private readonly ITournamentRepo _tournament;
+    private readonly ILogger<TournamentController> _logger;
 
-    private readonly ILogger<WeatherForecastController> _logger;
-
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public TournamentController(ILogger<TournamentController> logger, ITournamentRepo tournament)
     {
         _logger = logger;
+        _tournament = tournament;       
+
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    [HttpGet(Name = "GetTournament")]
+    public IEnumerable<TournamentModel> Get()
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+        return _tournament.GetAll().ToArray();
+              
     }
 
 
-    [HttpGet("[action]/{id}")]
-    public int GetNumber(int number)
+    [HttpGet("{id}")]
+   
+    public TournamentModel Get(int Id)
     {
-        return number * 10;
+        var tourney = _tournament.GetById(Id);
+        return tourney;
     }
 
+    [HttpPost]
+    public IActionResult Create(TournamentModel tournament)
+    {
+        _tournament.Insert(tournament);
 
+        return Ok(tournament);
+    }
 }
 

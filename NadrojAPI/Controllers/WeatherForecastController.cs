@@ -29,5 +29,14 @@ public class WeatherForecastController : ControllerBase
         })
         .ToArray();
     }
+
+
+    [HttpGet("{id}")]
+    public int GetNumber(int number)
+    {
+        return number * 10;
+    }
+
+
 }
 
