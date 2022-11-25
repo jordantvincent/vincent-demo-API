@@ -21,6 +21,30 @@ namespace NadrojAPI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("NadrojAPI.Models.CardModel", b =>
+                {
+                    b.Property<int>("cardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("cardId"));
+
+                    b.Property<string>("color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<char>("rank")
+                        .HasColumnType("character(1)");
+
+                    b.Property<string>("suit")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("cardId");
+
+                    b.ToTable("cards");
+                });
+
             modelBuilder.Entity("NadrojAPI.Models.TournamentModel", b =>
                 {
                     b.Property<int>("tournamentId")

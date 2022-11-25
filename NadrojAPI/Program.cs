@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseNpgsql(builder.Configuration.GetConnectionString("Demo")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Repositories are initialized here
 builder.Services.AddScoped<ITournamentRepo, TournamentRepo>();
 
 var app = builder.Build();
